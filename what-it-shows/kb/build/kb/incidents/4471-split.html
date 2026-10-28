@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/runbook.9BJ9BomY.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/Callout.89E4ZsOX.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/5.Cze1tbqG.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.D9X5mIQd.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/-jDjJgv6.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/WLr3OCk2.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/CaskBBMd.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.DH61wm3r.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/CxLjh0hF.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/BxHaDExg.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/BviaqjHR.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.l8Bwb4lC.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/BAC74Pmu.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/5.Djqid6Bi.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/DUDsiIUk.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/CSay-iu-.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/BWUPc4Cf.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/VZMtRRNN.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/iXLSwIXB.js"><!--[--><!--]--><title>#4471 split · three problems, not one · support kb</title>
+  </head>
+  <body>
+    <div style="display: contents"><!--[--><!--[--><!----><!----><div class="kb svelte-60g32v"><header><a class="crumb svelte-60g32v" href="/kb">support desk · kb</a> <h1 class="svelte-60g32v">#4471 split · three problems, not one</h1> <p class="meta svelte-60g32v"><span>owner <b>rcmerlo</b></span> <span class="status open svelte-60g32v">open</span> <span class="svelte-60g32v">reviewed 2026-10-28 · 0 days ago</span></p></header> <!--[!--><!--]--> <main><p><a href="/kb/incidents/4471">#4471</a> is marked known: one issue, one fix queued. Read report by report, it
+holds three problems. The queued parser fix closes only the first one.</p> <aside class="warn svelte-hdh0t2"><!---->Not one issue. Each problem below has its own ticket and its own fix.<!----></aside><!----> <h2>The split</h2> <p class="sum svelte-wdphyq"><strong>412</strong> reports merged into #4471 (427 export rows, counted once by id) · <strong>3</strong> problems</p> <table><thead><tr><th>problem</th><th>reports</th><th>tenants</th><th>channels</th><th>seen</th><th>ticket</th></tr></thead><tbody><!--[--><tr class="svelte-wdphyq"><td class="svelte-wdphyq"><code>parser</code></td><td class="svelte-wdphyq">374</td><td class="svelte-wdphyq">11</td><td class="tags svelte-wdphyq">app 202 · email 147 · form 25</td><td class="svelte-wdphyq">2026-04-01 → 2026-10-04</td><td class="svelte-wdphyq"><!--[--><a href="https://github.com/rcmerlo/megadev/issues/1">#1</a><!--]--></td></tr><tr class="svelte-wdphyq"><td class="svelte-wdphyq"><code>hint</code></td><td class="svelte-wdphyq">33</td><td class="svelte-wdphyq">3</td><td class="tags svelte-wdphyq">form 33</td><td class="svelte-wdphyq">2026-04-17 → 2026-09-22</td><td class="svelte-wdphyq"><!--[--><a href="https://github.com/rcmerlo/megadev/issues/2">#2</a><!--]--></td></tr><tr class="svelte-wdphyq"><td class="svelte-wdphyq"><code>one-day</code></td><td class="svelte-wdphyq">5</td><td class="svelte-wdphyq">5</td><td class="tags svelte-wdphyq">email 3 · app 2</td><td class="svelte-wdphyq">2026-04-02 → 2026-10-04</td><td class="svelte-wdphyq"><!--[--><a href="https://github.com/rcmerlo/megadev/issues/3">#3</a><!--]--></td></tr><!--]--></tbody></table><!----> <h2>The three problems</h2> <ul><li><strong><code>parser</code></strong>: the shared parser reads every date month first. Every tenant on #4471 writes the
+day first, so a date with day 12 or lower comes out swapped. Any channel, every tenant.</li> <li><strong><code>hint</code></strong>: booking-v3 prints <code>MM/DD/YYYY</code> under its date field, then reads the date the
+tenant’s way, day first. People type what the hint says and get a swapped date. Only the <code>form</code> channel, only booking-v3 tenants. Fixing the parser does not fix this.</li> <li><strong><code>one-day</code></strong>: the date moves by one day, it does not swap. “Tuesday showed as Monday.”
+“Client in Lisbon got Tuesday. Client in Toronto got Monday.” This looks like time zones.
+The cause is not confirmed. The desk already noted these reports (<code>desk-notes.json</code>), but <code>causes.ts</code> files them under <code>parser</code> by tenant.</li></ul> <h2>How this was counted</h2> <ul><li>The export pages overlap, so some reports appear twice. Each report counts once, by id.</li> <li><code>parser</code> and <code>hint</code> come from <code>causes.ts</code>: tenant locale, booking form and channel. Not the
+intake tag, which is a guess from the reporter’s browser.</li> <li><code>one-day</code> is every report in the desk’s one-day list. Its body names a shift, not a swap.</li></ul> <h2>Why the merge missed it</h2> <p>Reports were merged on subject alone (<a href="/kb/decisions/0001-dedupe-by-subject">decision 0001</a>).
+All three problems produce the same subjects: “Wrong day on the invite”, “Date is wrong”. The
+subject says that a date is wrong. Only the body, the tenant and the channel say why.</p> <!--[--><p class="stamp svelte-5qojh0">desk ref <b class="svelte-5qojh0">DR-GBGT-KTRF</b></p><!--]--><!----><!----></main> <footer class="svelte-60g32v">Pages are written by people. Tables and charts are built from data at render time.</footer></div><!----><!----><!----><!--]--> <!--[!--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_vi3zio = {
+						base: new URL("../..", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.D9X5mIQd.js"),
+						import("../../_app/immutable/entry/app.DH61wm3r.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 5],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

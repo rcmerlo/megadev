@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    
+		<link href="../../_app/immutable/assets/runbook.9BJ9BomY.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/Callout.89E4ZsOX.css" rel="stylesheet">
+		<link href="../../_app/immutable/assets/6.CrOkvdkG.css" rel="stylesheet">
+		<link rel="modulepreload" href="../../_app/immutable/entry/start.D9X5mIQd.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/-jDjJgv6.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/WLr3OCk2.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/CaskBBMd.js">
+		<link rel="modulepreload" href="../../_app/immutable/entry/app.DH61wm3r.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/CxLjh0hF.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/BxHaDExg.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/BviaqjHR.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/0.l8Bwb4lC.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/BAC74Pmu.js">
+		<link rel="modulepreload" href="../../_app/immutable/nodes/6.B9mVZWuf.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/D7T9I7y5.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/CSay-iu-.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/BWUPc4Cf.js">
+		<link rel="modulepreload" href="../../_app/immutable/chunks/VZMtRRNN.js"><!--[--><!--]--><title>Triage: duplicate reports · support kb</title>
+  </head>
+  <body>
+    <div style="display: contents"><!--[--><!--[--><!----><!----><div class="kb svelte-60g32v"><header><a class="crumb svelte-60g32v" href="/kb">support desk · kb</a> <h1 class="svelte-60g32v">Triage: duplicate reports</h1> <p class="meta svelte-60g32v"><span>owner <b>support desk</b></span> <span class="status accepted svelte-60g32v">accepted</span> <span class="svelte-60g32v stale">reviewed 2024-06-11 · 869 days ago · stale</span></p></header> <!--[--><p class="banner svelte-60g32v">Nobody has re-read this page in 869 days. Check it against the live views before you rely on it.</p><!--]--> <main><p>A busy morning brings hundreds of reports about the same thing. We keep one ticket per issue
+and merge every duplicate into it, so engineering sees one thread with a count.</p> <h2>The rule</h2> <p>A report is a duplicate when its <strong>subject line matches</strong> the subject of an open ticket
+(<a href="/kb/decisions/0001-dedupe-by-subject">decision 0001</a>):</p> <ol><li>lowercase the subject and strip punctuation;</li> <li>look for an open ticket with the same subject;</li> <li>found one: merge the report into it. None: open a new ticket.</li></ol> <aside class="note svelte-hdh0t2"><!---->Matching on subject is fast and needs no reading. During an incident that matters more than
+anything else.<!----></aside><!----> <h2>Try it</h2> <div class="try svelte-2hempu"><!--[--><fieldset class="svelte-2hempu"><legend>report A</legend> <select aria-label="tenant"><!--[--><option value="alder.physio">alder.physio</option><option value="copper.studio">copper.studio</option><option value="harbour.dental">harbour.dental</option><option value="kettle.books">kettle.books</option><option value="lantern.row">lantern.row</option><option value="long.table">long.table</option><option value="morrow.tax">morrow.tax</option><option value="nine.lanterns">nine.lanterns</option><option value="pale.harbour">pale.harbour</option><option value="ridge.clinic">ridge.clinic</option><option value="stone.and.sons">stone.and.sons</option><!--]--></select> <select aria-label="channel"><!--[--><option value="app">app</option><option value="email">email</option><option value="form">form</option><!--]--></select> <input value="Booking on the wrong date" aria-label="subject"> <code>hint</code></fieldset><fieldset class="svelte-2hempu"><legend>report B</legend> <select aria-label="tenant"><!--[--><option value="alder.physio">alder.physio</option><option value="copper.studio">copper.studio</option><option value="harbour.dental">harbour.dental</option><option value="kettle.books">kettle.books</option><option value="lantern.row">lantern.row</option><option value="long.table">long.table</option><option value="morrow.tax">morrow.tax</option><option value="nine.lanterns">nine.lanterns</option><option value="pale.harbour">pale.harbour</option><option value="ridge.clinic">ridge.clinic</option><option value="stone.and.sons">stone.and.sons</option><!--]--></select> <select aria-label="channel"><!--[--><option value="app">app</option><option value="email">email</option><option value="form">form</option><!--]--></select> <input value="Booking on the wrong date" aria-label="subject"> <code>parser</code></fieldset><!--]--> <p class="verdict svelte-2hempu">different causes — keep apart</p></div> <table><thead><tr><th>case</th><th>same subject</th><th>same cause</th></tr></thead><tbody><!--[--><tr><td>app vs email, same tenant</td><td>no</td><td class="svelte-2hempu dup">yes</td></tr><tr><td>same subject, same tenant, different channel</td><td>yes</td><td class="svelte-2hempu">no</td></tr><tr><td>same subject, same channel, different tenant</td><td>yes</td><td class="svelte-2hempu">no</td></tr><tr><td>different subject, same way in</td><td>no</td><td class="svelte-2hempu dup">yes</td></tr><tr><td>no tenant on file</td><td>yes</td><td class="svelte-2hempu">no</td></tr><!--]--></tbody></table><!----> <h2>When you are unsure</h2> <p>Merge. Splitting a ticket later is cheaper than two engineers chasing the same bug.</p><!----></main> <footer class="svelte-60g32v">Pages are written by people. Tables and charts are built from data at render time.</footer></div><!----><!----><!----><!--]--> <!--[!--><!--]--><!--]-->
+			
+			<script>
+				{
+					__sveltekit_vi3zio = {
+						base: new URL("../..", location).pathname.slice(0, -1)
+					};
+
+					const element = document.currentScript.parentElement;
+
+					Promise.all([
+						import("../../_app/immutable/entry/start.D9X5mIQd.js"),
+						import("../../_app/immutable/entry/app.DH61wm3r.js")
+					]).then(([kit, app]) => {
+						kit.start(app, element, {
+							node_ids: [0, 6],
+							data: [null,null],
+							form: null,
+							error: null
+						});
+					});
+				}
+			</script>
+		</div>
+  </body>
+</html>

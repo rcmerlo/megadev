@@ -1,0 +1,58 @@
+---
+layout: runbook
+title: '#4471 split · three problems, not one'
+owner: rcmerlo
+status: open
+reviewed: 2026-10-28
+signature: v1.eyJzdWIiOiIyMzkyIiwiYXVkIjoiY2hhbGxlbmdlOndoYXQtaXQtc2hvd3MiLCJpYXQiOjE3OTMyMjcyODYsImV4cCI6MTc5MzMxMzY4Nn0.3NWT6-ySzxLWzSvA4rrNTZkub3hJOOQSCr6D-FOozSg
+---
+
+<script>
+  import SplitTable from '#lib/kb/SplitTable.svelte';
+  import Callout from '#lib/kb/Callout.svelte';
+  import RenderStamp from '#lib/kb/RenderStamp.svelte';
+
+  const issues = {
+    parser: 'https://github.com/rcmerlo/megadev/issues/1',
+    hint: 'https://github.com/rcmerlo/megadev/issues/2',
+    'one-day': 'https://github.com/rcmerlo/megadev/issues/3',
+  };
+</script>
+
+[#4471](/kb/incidents/4471) is marked known: one issue, one fix queued. Read report by report, it
+holds three problems. The queued parser fix closes only the first one.
+
+<Callout kind="warn">
+Not one issue. Each problem below has its own ticket and its own fix.
+</Callout>
+
+## The split
+
+<SplitTable ticket={4471} {issues} />
+
+## The three problems
+
+- **`parser`**: the shared parser reads every date month first. Every tenant on #4471 writes the
+  day first, so a date with day 12 or lower comes out swapped. Any channel, every tenant.
+- **`hint`**: booking-v3 prints `MM/DD/YYYY` under its date field, then reads the date the
+  tenant's way, day first. People type what the hint says and get a swapped date. Only the
+  `form` channel, only booking-v3 tenants. Fixing the parser does not fix this.
+- **`one-day`**: the date moves by one day, it does not swap. "Tuesday showed as Monday."
+  "Client in Lisbon got Tuesday. Client in Toronto got Monday." This looks like time zones.
+  The cause is not confirmed. The desk already noted these reports (`desk-notes.json`), but
+  `causes.ts` files them under `parser` by tenant.
+
+## How this was counted
+
+- The export pages overlap, so some reports appear twice. Each report counts once, by id.
+- `parser` and `hint` come from `causes.ts`: tenant locale, booking form and channel. Not the
+  intake tag, which is a guess from the reporter's browser.
+- `one-day` is every report in the desk's one-day list. Its body names a shift, not a swap.
+
+## Why the merge missed it
+
+Reports were merged on subject alone ([decision 0001](/kb/decisions/0001-dedupe-by-subject)).
+All three problems produce the same subjects: "Wrong day on the invite", "Date is wrong". The
+subject says that a date is wrong. Only the body, the tenant and the channel say why.
+
+<RenderStamp {signature} />
