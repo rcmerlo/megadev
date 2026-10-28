@@ -1,18 +1,16 @@
-// #4471 split by what each report shows. causes.ts places a report by its tenant and channel; a report
-// the desk read as a one-day move (desk-notes.json) is not a day/month swap, so it gets its own problem.
+// #4471 split by what each report shows, counted the way the desk counts (CauseTable): every report by
+// its cause in causes.ts. Reports the desk read as a one-day move (desk-notes.json) are not a day/month
+// swap, so they get their own row too; they stay counted where causes.ts files them.
 import { causeOf, uniqueById, type Report, type Tenant } from '#lib/kb/causes';
 
 export type Problem = 'parser' | 'hint' | 'one-day' | 'unplaced';
 export const PROBLEMS: readonly Problem[] = ['parser', 'hint', 'one-day', 'unplaced'];
 
-export function problemOf(r: Report, t: Tenant | undefined, oneDayMove: readonly string[]): Problem {
-  if (oneDayMove.includes(r.id)) return 'one-day';
-  return causeOf(r, t) ?? 'unplaced';
-}
-
 export type ProblemGroup = {
   problem: Problem;
   reports: Report[];
+  // For one-day: the cause these reports are counted under.
+  filedUnder: string[];
   tenants: number;
   channels: Record<string, number>;
   firstSeen: string;
@@ -26,12 +24,14 @@ export function splitTicket(
   oneDayMove: readonly string[],
 ): { rows: number; merged: Report[]; groups: ProblemGroup[] } {
   const merged = uniqueById(all).filter((r) => r.mergedInto === ticket);
+  const cause = (r: Report): Problem => causeOf(r, tenantOf(r)) ?? 'unplaced';
   const groups = PROBLEMS.map((problem) => {
-    const rs = merged.filter((r) => problemOf(r, tenantOf(r), oneDayMove) === problem);
+    const rs = problem === 'one-day' ? merged.filter((r) => oneDayMove.includes(r.id)) : merged.filter((r) => cause(r) === problem);
     const days = rs.map((r) => r.receivedAt.slice(0, 10)).sort();
     return {
       problem,
       reports: rs,
+      filedUnder: problem === 'one-day' ? [...new Set(rs.map(cause))] : [],
       tenants: new Set(rs.map((r) => r.tenant)).size,
       channels: rs.reduce<Record<string, number>>((n, r) => ({ ...n, [r.channel]: (n[r.channel] ?? 0) + 1 }), {}),
       firstSeen: days[0],

@@ -46,8 +46,11 @@ Not one issue. Each problem below has its own ticket and its own fix.
 
 - The export pages overlap, so some reports appear twice. Each report counts once, by id.
 - `parser` and `hint` come from `causes.ts`: tenant locale, booking form and channel. Not the
-  intake tag, which is a guess from the reporter's browser.
+  intake tag, which is a guess from the reporter's browser. This is the desk's own count, the
+  same as the table on [#4471](/kb/incidents/4471).
 - `one-day` is every report in the desk's one-day list. Its body names a shift, not a swap.
+  These reports stay counted where `causes.ts` files them, so the rows add up to more than the
+  reports merged.
 
 ## Why the merge missed it
 

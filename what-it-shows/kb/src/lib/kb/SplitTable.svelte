@@ -30,7 +30,9 @@
     {#each split.groups as g (g.problem)}
       <tr class:missing={!issues[g.problem]}>
         <td><code>{g.problem}</code></td>
-        <td>{g.reports.length}</td>
+        <td>
+          {g.reports.length}{#if g.filedUnder.length}<span class="tags"> · counted in {g.filedUnder.join(', ')}</span>{/if}
+        </td>
         <td>{g.tenants}</td>
         <td class="tags">{channels(g.channels)}</td>
         <td>{g.firstSeen} → {g.lastSeen}</td>
